@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\datde\.Rider2019.3\config\consoles\db" t="IncludeRecursive" />
+    <e p="C:\Users\datde\.Rider2019.3\config\extensions" t="IncludeRecursive" />
+    <e p="C:\Users\datde\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\datde\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_MidnightRacer.786049627.00" t="ExcludeRecursive" />
+    <e p="C:\Users\datde\source\repos\MidnightRacer" t="IncludeFlat">
+      <e p="MidnightRacer" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Engine" t="Include">
+          <e p="Core" t="Include">
+            <e p="GameObject.cs" t="Include" />
+            <e p="World.cs" t="Include" />
+          </e>
+          <e p="Helpers" t="Include">
+            <e p="MathF.cs" t="Include" />
+            <e p="Vector.cs" t="Include" />
+            <e p="VectorGroup.cs" t="Include" />
+          </e>
+          <e p="Intersections" t="Include">
+            <e p="IIntersectable.cs" t="Include" />
+          </e>
+          <e p="IO" t="Include">
+            <e p="Debug.cs" t="Include" />
+            <e p="Keyboard.cs" t="Include" />
+            <e p="Stats.cs" t="Include" />
+            <e p="View.cs" t="Include" />
+          </e>
+        </e>
+        <e p="GameObjects" t="Include">
+          <e p="Car.cs" t="Include" />
+          <e p="PetrolCan.cs" t="Include" />
+          <e p="RoadCone.cs" t="Include" />
+          <e p="Wall.cs" t="Include" />
+        </e>
+        <e p="MidnightRacer.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="RenderForm.cs" t="Include" />
+        <e p="RenderForm.Designer.cs" t="Include" />
+        <e p="RenderForm.resx" t="Include" />
+      </e>
+      <e p="MidnightRacer.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

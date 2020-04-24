@@ -90,18 +90,21 @@ namespace MidnightRacer.GameObjects
                 speed -= a * d;
             Debug.Write("speed", speed);
 
-            if (Keyboard.Pressed[Keys.Left] && steerAngle < maxSteerAngle)
+            if (Keyboard.Pressed[Keys.Left])
                 steerAngle += steerSpeed * d;
-            else if (Keyboard.Pressed[Keys.Right] && steerAngle > -maxSteerAngle)
+            else if (Keyboard.Pressed[Keys.Right])
                 steerAngle -= steerSpeed * d;
             else if (Abs(steerAngle) > 0.1f)
                 steerAngle -= Sign(steerAngle) * 40f * d;
 
+            var availableSteer = 1600 / (speed/2 + 22);/*picked up formula for this car*/
+            steerAngle = Sign(steerAngle) * (Min(Abs(steerAngle), availableSteer));
+
             Debug.Write("steer angle", steerAngle);
 
-            var R = 38 /*расстояние между осями*/ / Sin(steerAngle);
-            var currentRotation =
-                ToDeg(speed / R) /** Min(Abs(speed) , Abs(steerAngle))*/;
+            var turnRadius = 38 /*расстояние между осями*/ / Sin(steerAngle);
+            var currentRotation = ToDeg(speed / turnRadius /*в угловых минутах*/);
+            
             Debug.Write("cur rot", currentRotation);
             Rotate(currentRotation * d);
             //speed -= steerAngle * angularDrag * d;
@@ -134,7 +137,7 @@ namespace MidnightRacer.GameObjects
                     break;
                 case Wall w:
                     Destroy();
-                    
+
                     break;
             }
         }

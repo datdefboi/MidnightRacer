@@ -1,9 +1,0 @@
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.csprojAssemblyReference.cache
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.Properties.Resources.resources
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.csproj.GenerateResource.cache
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\bin\Debug\MidnightRacer.exe.config
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\bin\Debug\MidnightRacer.exe
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\bin\Debug\MidnightRacer.pdb
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.exe
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.pdb
-C:\Users\datde\source\repos\MidnightRacer\MidnightRacer\obj\Debug\MidnightRacer.RenderForm.resources

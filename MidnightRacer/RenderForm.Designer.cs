@@ -23,8 +23,8 @@
         #region Код, автоматически созданный конструктором форм Windows
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -46,18 +46,18 @@
             // 
             // RenderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1051, 752);
+            this.ClientSize = new System.Drawing.Size(1226, 868);
             this.Name = "RenderForm";
-            this.Text = "Form1";
+            this.Text = "Midnight Racer";
             this.Load += new System.EventHandler(this.RenderForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnWorldPaint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RenderForm_KeyDown);
+            this.KeyDown +=
+                new System.Windows.Forms.KeyEventHandler(this.RenderForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RenderForm_KeyUp);
             this.ResumeLayout(false);
-
         }
 
         #endregion

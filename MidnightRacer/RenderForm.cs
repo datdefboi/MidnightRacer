@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using View = MidnightRacer.Engine.View;
 
 namespace MidnightRacer
 {
@@ -26,6 +27,7 @@ namespace MidnightRacer
 
             DoubleBuffered = true;
 
+            View.InitSlips();
             World.OnCreation();
             World.StartNewGame();
         }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text.Json;
 using MidnightRacer.Engine.Persistence;
@@ -15,13 +17,21 @@ namespace MidnightRacer.Engine
 
         private static void LoadStats()
         {
-            users = JsonSerializer.Deserialize<List<UserRecord>>
-                (File.ReadAllText("stats.json"));
+            try
+            {
+                users = JsonSerializer.Deserialize<List<UserRecord>>
+                    (File.ReadAllText("stats.json"));
+            }
+            catch (Exception e)
+            {
+                File.WriteAllText("stats.json", "[]");
+            }
         }
 
         private static void SaveMap()
         {
             var save = new GameSave();
+            View.slips.Save("slips.bmp");
 
             save.cansEatten = (int) Stats.CansEatten;
             save.creation = creationTime;
@@ -52,7 +62,7 @@ namespace MidnightRacer.Engine
         {
             var save =
                 JsonSerializer.Deserialize<GameSave>(File.ReadAllText("save.json"));
-
+          
             StartNewGame();
             GameObjectsPool.Clear();
             GameObjectsPool.AddRange(save.cans);
@@ -61,6 +71,8 @@ namespace MidnightRacer.Engine
 
             Stats.CansEatten = save.cansEatten;
             creationTime = save.creation;
+
+            View.InitSlips(new Bitmap(Image.FromFile("slips.bmp")));
         }
     }
 }

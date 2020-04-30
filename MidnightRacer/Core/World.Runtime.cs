@@ -30,7 +30,7 @@ namespace MidnightRacer.Engine
         private static void DoWorldWork(float elapsed)
         {
             var destroyQueue = new Queue<GameObject>();
-
+            
             for (var i = 0; i < GameObjectsPool.Count; i++)
             {
                 var go = GameObjectsPool[i];
@@ -53,7 +53,8 @@ namespace MidnightRacer.Engine
                 {
                     go.Render();
                 }
-                catch (Exception ex) { } // это ужасно, я знаю, но GDI багует. То есть - !!!!!НЕ УБИРАТЬ ОБРАБОТЧИК!!!!
+                catch (Exception ex
+                ) { } // это ужасно, я знаю, но GDI багует. То есть - !!!!!НЕ УБИРАТЬ ОБРАБОТЧИК!!!!
             }
 
             foreach (var go in destroyQueue)
@@ -89,6 +90,8 @@ namespace MidnightRacer.Engine
             lastRender = now;
 
             Debug.Write("FPS", 1 / elapsed);
+            
+            g.DrawImage(View.slips, Point.Empty);
 
             HandleKeys();
             DoWorldWork(elapsed);

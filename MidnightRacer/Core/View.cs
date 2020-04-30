@@ -11,19 +11,43 @@ namespace MidnightRacer.Engine
         public static float Height;
         public static float Width;
 
-        private static PointF[] NormalizeCoords(VectorGroup group) => group.Select(p => new PointF(p.X, Height - p.Y)).ToArray();
+        public static Bitmap slips;
 
-        public static void DrawPolygon(VectorGroup points, Color color, bool isCurved = false)
+        private static Graphics slipsG;
+
+        public static void InitSlips(Bitmap bmp = null)
+        {
+            if (bmp != null)
+                slips = bmp;
+            else
+                slips = new Bitmap((int) Width, (int) Height);
+            slipsG = Graphics.FromImage(slips);
+        }
+
+        public static void MarkSlip(VectorGroup points)
+        {
+            var normalizedPoints = NormalizeCoords(points);
+
+            slipsG.FillPolygon(new SolidBrush(Color.LightGray), normalizedPoints);
+        }
+
+
+        private static PointF[] NormalizeCoords(VectorGroup group) =>
+            group.Select(p => new PointF(p.X, Height - p.Y)).ToArray();
+
+        public static void DrawPolygon(VectorGroup points, Color color, bool isCurved =
+                                           false, float stroke = 1)
         {
             var normalizedPoints = NormalizeCoords(points);
 
             if (isCurved)
-                currentGraphics.DrawClosedCurve(new Pen(color), normalizedPoints);
+                currentGraphics.DrawClosedCurve(new Pen(color, stroke), normalizedPoints);
             else
-                currentGraphics.DrawPolygon(new Pen(color), normalizedPoints);
+                currentGraphics.DrawPolygon(new Pen(color, stroke), normalizedPoints);
         }
 
-        public static void FillPolygon(VectorGroup points, Color color, bool isCurved = false)
+        public static void FillPolygon(VectorGroup points, Color color,
+                                       bool isCurved = false)
         {
             var normalizedPoints = NormalizeCoords(points);
 
@@ -32,9 +56,11 @@ namespace MidnightRacer.Engine
             else
                 currentGraphics.FillPolygon(new SolidBrush(color), normalizedPoints);
         }
+
         public static void FillCircle(Vector position, float radius, Color color)
         {
-            currentGraphics.FillEllipse(new SolidBrush(color), position.X - radius, Height - (position.Y + radius), radius*2, radius*2);
+            currentGraphics.FillEllipse(new SolidBrush(color), position.X - radius,
+                Height - (position.Y + radius), radius * 2, radius * 2);
         }
     }
 }

@@ -20,7 +20,8 @@ namespace MidnightRacer.GameObjects
         public float Speed { get; set; } = 0f;
         private const float MaxSpeed = 300f;
         private const float Acceleration = 90f;
-
+        private float overload = 0;
+        
         private const float AxisDistance = 36;
 
         public float SteerAngle { get; set; } = 0f;
@@ -61,7 +62,12 @@ namespace MidnightRacer.GameObjects
             {
                 var wheel = wheelVGroup.Rotate(Vector.Zero, SteerAngle * turnRatio).
                     Move(Origin).Move(p).Rotate(Vector.Zero, Rotation).Move(Position);
-
+                
+                if (Abs(overload) > 0.95f)
+                {
+                    View.MarkSlip(wheel);
+                }
+                
                 View.FillPolygon(wheel, Color.Black, true);
             }
 
@@ -92,7 +98,7 @@ namespace MidnightRacer.GameObjects
                 Speed += Acceleration * d;
             if (Keyboard.Pressed[Keys.Down] && Speed > 0)
                 Speed -= Acceleration * d;
-            Debug.Write("DBG:speed", Speed);
+            Debug.Write("DBG:Speed KM/h", (Speed / AxisDistance * 4.4f) / 3.6 * 2);
 
             if (Keyboard.Pressed[Keys.Left])
                 SteerAngle += SteerSpeed * d;
@@ -105,8 +111,8 @@ namespace MidnightRacer.GameObjects
 
             var turnRadius = AxisDistance / Sin(SteerAngle);
             Debug.Write("DBG:radius", turnRadius);
-            var currentRotation = ToDeg(Speed / turnRadius);
-            var overload = Speed / turnRadius;
+            var currentRotation = ToDeg(Speed / turnRadius); 
+            overload = Speed / turnRadius;
             if (Math.Abs(overload) > 1)
             {
                 var angle = ToDeg((float) Math.Asin(
@@ -114,7 +120,7 @@ namespace MidnightRacer.GameObjects
                     Math.Abs(overload)));
                 SteerAngle = Sign(SteerAngle) * angle;
             }
-
+            
             SteerAngle = Sign(SteerAngle) * Min(MaxSteerAngle, Abs(SteerAngle));
 
             Debug.Write("DBG:ovd", overload);

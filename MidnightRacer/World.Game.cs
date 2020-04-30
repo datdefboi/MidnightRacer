@@ -32,6 +32,7 @@ namespace MidnightRacer.Engine
         public static void StartNewGame()
         {
             Stats.maxCanEaten = (int) Math.Max(Stats.CansEatten, Stats.maxCanEaten);
+            View.InitSlips();
             InitWorld();
         }
 

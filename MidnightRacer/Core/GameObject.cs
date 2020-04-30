@@ -4,9 +4,9 @@ namespace MidnightRacer.Engine
 {
     public abstract class GameObject
     {
-        protected Vector Position { get; set; } = Vector.Zero;
+        public Vector Position { get; set; } = Vector.Zero;
         protected abstract Vector Origin { get; set; }
-        protected float Rotation { get; set; } = 0f;
+        public float Rotation { get; set; } = 0f;
         protected abstract VectorGroup Bounds { get; set; }
         protected abstract float BoundsRadius { get; set; }
 

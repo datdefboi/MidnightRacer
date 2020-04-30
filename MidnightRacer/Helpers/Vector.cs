@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using static MidnightRacer.Engine.MathF;
 
 namespace MidnightRacer.Engine
 {
+    [Serializable]
     public struct Vector
     {
-        public float X { get; }
-        public float Y { get; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
         public Vector(float x, float y)
         {
@@ -19,7 +22,6 @@ namespace MidnightRacer.Engine
 
         public static Vector FromAngle(float angle) => new Vector(Cos(angle), Sin(angle));
         
-
         public static Vector Zero => new Vector();
         public static Vector Identity => new Vector(1, 1);
         public static Vector operator +(Vector a, Vector b) => new Vector(a.X + b.X, a.Y + b.Y);
@@ -34,5 +36,6 @@ namespace MidnightRacer.Engine
         public float Angle => Atan2(X, Y);
 
         public override string ToString() => $"({X}, {Y})";
+        
     }
 }

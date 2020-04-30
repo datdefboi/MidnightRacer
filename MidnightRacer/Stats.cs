@@ -8,7 +8,8 @@ namespace MidnightRacer.Engine
 {
     static class Stats
     {
-        public static float CanEatten = 0;
+        public static int CansEatten = 0;
         public static Action CanEattenChanged;
+        public static int maxCanEaten;
     }
 }

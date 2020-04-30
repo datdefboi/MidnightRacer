@@ -1,4 +1,5 @@
-﻿using MidnightRacer.Engine;
+﻿using System;
+using MidnightRacer.Engine;
 using System.Collections.Generic;
 using System.Drawing;
 using static MidnightRacer.Engine.MathF;
@@ -16,18 +17,21 @@ namespace MidnightRacer.GameObjects
 
         protected override Vector Origin { get; set; } = new Vector(22, 0);
 
-        private float speed = 0f;
-        private float maxSpeed = 300f;
-        private float a = 90f;
+        public float Speed { get; set; } = 0f;
+        private const float MaxSpeed = 300f;
+        private const float Acceleration = 90f;
 
-        private float steerAngle = 0f;
-        private float steerSpeed = 45f;
-        private float maxSteerAngle = 45f;
+        private const float AxisDistance = 36;
 
-        private float fuel = 100;
-        private float maxFuel = 100;
-        private float fuelConsuptionPerSec = 10;
-        private Color headColor = Color.Green;
+        public float SteerAngle { get; set; } = 0f;
+        private const float SteerSpeed = 45f;
+        private const float MaxSteerAngle = 65f;
+
+        public float Fuel { get; set; } = 100;
+        private const float MaxFuel = 100;
+        private const float FuelConsumptionPerSec = 10;
+
+        public Color headColor = Color.Green;
 
         private static VectorGroup headVGroup =
             VectorGroup.FromRect(new Size(34, 30 - 8)).Move(new Vector(16, 0));
@@ -41,12 +45,12 @@ namespace MidnightRacer.GameObjects
         private static IEnumerable<(IEnumerable<Vector>, float)> wheesMeta =
             new (IEnumerable<Vector>, float)[]
             {
-                (new Vector[] {new Vector(-20, 16), new Vector(-20, -16)}, 0f),
-                (new Vector[] {new Vector(-20, 9), new Vector(-20, -9)}, 0f),
+                (new[] {new Vector(-20, 16), new Vector(-20, -16)}, 0f),
+                (new[] {new Vector(-20, 9), new Vector(-20, -9)}, 0f),
 
 
-                (new Vector[] {new Vector(8, 14), new Vector(8, -14)}, 0.5f),
-                (new Vector[] {new Vector(26, 14), new Vector(26, -14)}, 1f)
+                (new[] {new Vector(8, 14), new Vector(8, -14)}, 0.5f),
+                (new[] {new Vector(26, 14), new Vector(26, -14)}, 1f)
             };
 
 
@@ -55,7 +59,7 @@ namespace MidnightRacer.GameObjects
             foreach (var (points, turnRatio) in wheesMeta)
             foreach (var p in points)
             {
-                var wheel = wheelVGroup.Rotate(Vector.Zero, steerAngle * turnRatio).
+                var wheel = wheelVGroup.Rotate(Vector.Zero, SteerAngle * turnRatio).
                     Move(Origin).Move(p).Rotate(Vector.Zero, Rotation).Move(Position);
 
                 View.FillPolygon(wheel, Color.Black, true);
@@ -71,7 +75,7 @@ namespace MidnightRacer.GameObjects
             View.FillPolygon(bodyPoints, Color.White, false);
             View.DrawPolygon(bodyPoints, Color.Black, false);
 
-            var fuelRatio = fuel / maxFuel;
+            var fuelRatio = Fuel / MaxFuel;
 
             View.FillPolygon(headPoints, Color.FromArgb(
                     (int) (255 - ((255 - headColor.R) * fuelRatio)),
@@ -84,40 +88,49 @@ namespace MidnightRacer.GameObjects
 
         public override void Update(float d)
         {
-            if (Keyboard.Pressed[Keys.Up] && speed < maxSpeed)
-                speed += a * d;
-            if (Keyboard.Pressed[Keys.Down] && speed > 0)
-                speed -= a * d;
-            Debug.Write("speed", speed);
+            if (Keyboard.Pressed[Keys.Up] && Speed < MaxSpeed)
+                Speed += Acceleration * d;
+            if (Keyboard.Pressed[Keys.Down] && Speed > 0)
+                Speed -= Acceleration * d;
+            Debug.Write("DBG:speed", Speed);
 
             if (Keyboard.Pressed[Keys.Left])
-                steerAngle += steerSpeed * d;
+                SteerAngle += SteerSpeed * d;
             else if (Keyboard.Pressed[Keys.Right])
-                steerAngle -= steerSpeed * d;
-            else if (Abs(steerAngle) > 0.1f)
-                steerAngle -= Sign(steerAngle) * 40f * d;
+                SteerAngle -= SteerSpeed * d;
+            else if (Abs(SteerAngle) > 0.1f)
+                SteerAngle -= Sign(SteerAngle) * 40f * d;
 
-            var availableSteer = 1600 / (speed/2 + 22);/*picked up formula for this car*/
-            steerAngle = Sign(steerAngle) * (Min(Abs(steerAngle), availableSteer));
+            Debug.Write("DBG:steer angle", SteerAngle);
 
-            Debug.Write("steer angle", steerAngle);
+            var turnRadius = AxisDistance / Sin(SteerAngle);
+            Debug.Write("DBG:radius", turnRadius);
+            var currentRotation = ToDeg(Speed / turnRadius);
+            var overload = Speed / turnRadius;
+            if (Math.Abs(overload) > 1)
+            {
+                var angle = ToDeg((float) Math.Asin(
+                    AxisDistance / Speed /
+                    Math.Abs(overload)));
+                SteerAngle = Sign(SteerAngle) * angle;
+            }
 
-            var turnRadius = 38 /*расстояние между осями*/ / Sin(steerAngle);
-            var currentRotation = ToDeg(speed / turnRadius /*в угловых минутах*/);
-            
-            Debug.Write("cur rot", currentRotation);
+            SteerAngle = Sign(SteerAngle) * Min(MaxSteerAngle, Abs(SteerAngle));
+
+            Debug.Write("DBG:ovd", overload);
+            Debug.Write("DBG:cur rot", currentRotation);
             Rotate(currentRotation * d);
             //speed -= steerAngle * angularDrag * d;
 
-            fuel -= fuelConsuptionPerSec * d;
+            Fuel -= FuelConsumptionPerSec * d;
 
-            if (fuel < 0)
+            if (Fuel < 0)
             {
-                fuel = 0;
+                Fuel = 0;
                 Destroy();
             }
 
-            Position += Vector.FromAngle(Rotation) * speed * d;
+            Position += Vector.FromAngle(Rotation) * Speed * d;
         }
 
         public void OnIntersection(GameObject opposite)
@@ -129,8 +142,8 @@ namespace MidnightRacer.GameObjects
 
                     break;
                 case PetrolCan can:
-                    fuel = maxFuel;
-                    Stats.CanEatten++;
+                    Fuel = MaxFuel;
+                    Stats.CansEatten++;
                     World.AddInEmptySpace<PetrolCan>();
                     headColor = can.color;
 

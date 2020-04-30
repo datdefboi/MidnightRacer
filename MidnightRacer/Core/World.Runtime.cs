@@ -30,7 +30,7 @@ namespace MidnightRacer.Engine
         private static void DoWorldWork(float elapsed)
         {
             var destroyQueue = new Queue<GameObject>();
-            
+
             for (var i = 0; i < GameObjectsPool.Count; i++)
             {
                 var go = GameObjectsPool[i];
@@ -90,7 +90,7 @@ namespace MidnightRacer.Engine
             lastRender = now;
 
             Debug.Write("FPS", 1 / elapsed);
-            
+
             g.DrawImage(View.slips, Point.Empty);
 
             HandleKeys();
@@ -105,10 +105,9 @@ namespace MidnightRacer.Engine
 
             g.DrawString(Stats.CansEatten.ToString(),
                 new Font(FontFamily.GenericMonospace, 70, FontStyle.Regular),
-                Brushes.Teal, new PointF(20, 10));
+                Brushes.Teal, new PointF(20, 20));
 
-            g.DrawString(
-                Math.Round((DateTime.Now - creationTime).TotalSeconds).ToString(),
+            g.DrawString(string.Format("{0:mm\\:ss}", (DateTime.Now - creationTime)),
                 new Font(FontFamily.GenericMonospace, 20, FontStyle.Regular),
                 Brushes.Teal, new PointF(10, 10));
         }
